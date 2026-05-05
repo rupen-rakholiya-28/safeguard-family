@@ -122,10 +122,28 @@ body {
 }
 .form-group input:focus, .form-group select:focus {
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 0 20px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     transform: translateY(-1px);
 }
+.form-group input:disabled, .form-group select:disabled {
+    opacity: 0.6; cursor: not-allowed; background: var(--bg-card);
+}
 .form-group input::placeholder { color: var(--text-muted); }
+
+/* Skeleton Loading State */
+.skeleton {
+    background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-card) 50%, var(--bg-secondary) 75%);
+    background-size: 200% 100%;
+    animation: loadingSkeleton 1.5s infinite;
+    border-radius: var(--radius-sm);
+    color: transparent !important;
+    pointer-events: none;
+    border: none !important;
+}
+@keyframes loadingSkeleton {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
 
 .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8);
@@ -142,14 +160,20 @@ body {
 .btn-primary {
     background: var(--accent-primary); color: white; width: 100%;
 }
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
     background: var(--accent-secondary); transform: translateY(-1px); box-shadow: var(--shadow-sm);
 }
 .btn-secondary {
     background: var(--bg-card); color: var(--text-primary);
     border: 1px solid var(--border-color);
 }
-.btn-secondary:hover { border-color: var(--accent-primary); background: var(--bg-secondary); }
+.btn-secondary:hover:not(:disabled) { border-color: var(--accent-primary); background: var(--bg-secondary); }
+.btn:disabled {
+    opacity: 0.6; cursor: not-allowed;
+    background: var(--bg-secondary) !important; color: var(--text-muted) !important;
+    transform: none !important; box-shadow: none !important; border-color: transparent !important;
+}
+
 .btn-sm { padding: 8px 16px; font-size: 13px; }
 .btn-danger { background: var(--danger); color: white; }
 .btn-danger:hover { background: #dc2626; transform: translateY(-1px); }

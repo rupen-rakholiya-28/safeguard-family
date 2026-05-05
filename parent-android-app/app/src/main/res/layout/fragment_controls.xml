@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:text="@string/controls_title"
             android:textSize="24sp"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-bold"
             android:textColor="@color/text_primary"
             android:layout_marginBottom="4dp" />
 
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/add_rule"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-bold"
                     android:textColor="@color/text_primary"
                     android:layout_marginBottom="12dp" />
 
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:text="@string/active_rules"
             android:textSize="18sp"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-bold"
             android:textColor="@color/text_primary"
             android:layout_marginBottom="8dp" />
 

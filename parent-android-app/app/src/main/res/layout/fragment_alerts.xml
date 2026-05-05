@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:text="@string/alerts_title"
             android:textSize="24sp"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-bold"
             android:textColor="@color/text_primary"
             android:layout_marginBottom="16dp" />
 
@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:text="@string/no_alerts"
             android:textSize="16sp"
+            android:fontFamily="sans-serif-semibold"
             android:textColor="@color/text_secondary"
             android:gravity="center"
             android:padding="32dp"

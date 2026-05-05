@@ -134,13 +134,13 @@
                     android:layout_marginBottom="16dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="4dp"
-                    app:strokeWidth="0dp">
-
-                    <LinearLayout
+                    app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/primary">
+            <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:background="@color/primary"
+                        
                         android:padding="16dp">
 
                         <LinearLayout
@@ -261,15 +261,15 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="24dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Children Activity"
-                        android:textSize="18sp"
-                        android:fontFamily="sans-serif-semibold"
+                        android:textSize="20sp"
+                        android:fontFamily="sans-serif-bold"
                         android:textColor="@color/text_primary" />
 
                     <View
@@ -539,11 +539,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Quick Actions"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-semibold"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif-bold"
                     android:textColor="@color/text_primary"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="12dp" />
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="16dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_title"
             android:textSize="28sp"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-bold"
             android:textColor="@color/text_primary"
             android:layout_marginTop="16dp" />
 
@@ -88,10 +88,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+        Ndp"
             style="@style/Widget.Parent.TextInput"
             app:endIconMode="password_toggle">
 

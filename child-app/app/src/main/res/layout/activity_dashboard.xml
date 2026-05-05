@@ -40,13 +40,13 @@
             android:layout_marginTop="24dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
-            app:strokeWidth="0dp">
-
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/primary">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/primary"
+                
                 android:padding="16dp">
 
                 <LinearLayout

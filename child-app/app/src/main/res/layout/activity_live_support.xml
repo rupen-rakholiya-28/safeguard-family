@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="@string/live_support_button"
             android:textSize="24sp"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-bold"
             android:textColor="?android:textColorPrimary" />
 
         <!-- Session Type Selector -->
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:text="Session Type"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-bold"
                     android:textColor="?android:textColorPrimary" />
 
                 <RadioGroup

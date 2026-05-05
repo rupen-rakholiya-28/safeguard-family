@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="@string/onboarding_title"
             android:textSize="28sp"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-bold"
             android:textColor="?android:textColorPrimary"
             android:layout_marginTop="16dp" />
 
@@ -91,10 +91,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+        Ndp"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             app:endIconMode="password_toggle">
 

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="@string/consent_title"
             android:textSize="24sp"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-bold"
             android:textColor="?android:textColorPrimary" />
 
         <TextView
