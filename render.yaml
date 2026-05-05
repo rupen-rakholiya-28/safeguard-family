@@ -3,8 +3,8 @@ services:
     name: safeguard-family-api
     repo: https://github.com/rupen-rakholiya-28/safeguard-family.git
     branch: main
-    buildCommand: apt-get update && apt-get install -y maven && cd backend && mvn clean package -DskipTests
-    startCommand: java -jar backend/target/*.jar
+    buildCommand: export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 && cd backend && ./mvnw clean package -DskipTests
+    startCommand: export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 && java -jar backend/target/*.jar
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
