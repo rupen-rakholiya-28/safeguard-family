@@ -61,6 +61,16 @@ class DashboardActivity : AppCompatActivity() {
         binding.tvWelcome.text = "Hi, ${prefs.childName ?: "there"} 👋"
         binding.tvFamilyName.text = prefs.familyName ?: "Your Family"
 
+        // Quick Actions - Location
+        binding.cardLocation.setOnClickListener {
+            showLocationInfo()
+        }
+
+        // Quick Actions - Usage
+        binding.cardUsage.setOnClickListener {
+            showUsageInfo()
+        }
+
         // SOS Button (Phase 3 - Emergency)
         binding.btnSOS.isEnabled = ConsentConfig.SOS_ENABLED
         binding.btnSOS.setOnClickListener {
@@ -90,6 +100,26 @@ class DashboardActivity : AppCompatActivity() {
             binding.tvScreenTimeLabel.text = "Screen Time (Disabled)"
             binding.tvScreenTime.text = "--"
         }
+    }
+
+    private fun showLocationInfo() {
+        AlertDialog.Builder(this)
+            .setTitle("📍 Location Sharing")
+            .setMessage("Your location is shared with your parent when enabled. " +
+                    "This helps keep you safe and allows parents to see your whereabouts.\n\n" +
+                    "Location is only shared when you give explicit consent.")
+            .setPositiveButton("Got it", null)
+            .show()
+    }
+
+    private fun showUsageInfo() {
+        AlertDialog.Builder(this)
+            .setTitle("📱 App Usage")
+            .setMessage("Your screen time and app usage are tracked to help parents understand your digital habits. " +
+                    "This data helps set healthy screen time limits.\n\n" +
+                    "You can see your daily screen time on this dashboard.")
+            .setPositiveButton("Got it", null)
+            .show()
     }
 
     private fun updateScreenTime() {

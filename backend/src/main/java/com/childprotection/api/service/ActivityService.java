@@ -104,4 +104,21 @@ public class ActivityService {
         LocalDateTime end = date.atTime(LocalTime.MAX);
         return locationPingRepository.findByChildIdAndRecordedAtBetween(childId, start, end);
     }
+    
+    public Map<String, Object> getLatestLocation(UUID childId) {
+        Optional<LocationPing> latest = locationPingRepository
+                .findByChildIdOrderByRecordedAtDesc(childId);
+        
+        if (latest.isEmpty()) {
+            return null;
+        }
+        
+        LocationPing ping = latest.get();
+        Map<String, Object> result = new HashMap<>();
+        result.put("latitude", ping.getLatitude());
+        result.put("longitude", ping.getLongitude());
+        result.put("accuracy", ping.getAccuracy());
+        result.put("timestamp", ping.getRecordedAt().toString());
+        return result;
+    }
 }

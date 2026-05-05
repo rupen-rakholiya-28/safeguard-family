@@ -52,11 +52,11 @@ class FamilyFragment : Fragment() {
     }
 
     private fun showCreateFamily() {
-        binding.layoutNoFamily.visibility = View.VISIBLE
-        binding.layoutFamilyDetails.visibility = View.GONE
+        _binding?.layoutNoFamily?.visibility = View.VISIBLE
+        _binding?.layoutFamilyDetails?.visibility = View.GONE
 
-        binding.btnCreateFamily.setOnClickListener {
-            val name = binding.etFamilyName.text.toString().trim()
+        _binding?.btnCreateFamily?.setOnClickListener {
+            val name = _binding?.etFamilyName?.text.toString().trim()
             if (name.isEmpty()) {
                 Toast.makeText(context, "Enter a family name", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -66,7 +66,7 @@ class FamilyFragment : Fragment() {
     }
 
     private fun createFamily(name: String) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val res = ApiClient.getService().createFamily(mapOf("name" to name))
                 if (res.isSuccessful && res.body()?.success == true) {
@@ -74,32 +74,38 @@ class FamilyFragment : Fragment() {
                     prefs.familyId = data.id
                     prefs.familyName = data.name
                     prefs.inviteCode = data.inviteCode
-                    showFamilyDetails()
-                    Toast.makeText(context, "Family created!", Toast.LENGTH_SHORT).show()
+                    if (isAdded) {
+                        showFamilyDetails()
+                        Toast.makeText(context, "Family created!", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
-                    Toast.makeText(context, res.body()?.message ?: "Failed", Toast.LENGTH_SHORT).show()
+                    if (isAdded) {
+                        Toast.makeText(context, res.body()?.message ?: "Failed", Toast.LENGTH_SHORT).show()
+                    }
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Connection error", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(context, "Connection error", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
     private fun showFamilyDetails() {
-        binding.layoutNoFamily.visibility = View.GONE
-        binding.layoutFamilyDetails.visibility = View.VISIBLE
+        _binding?.layoutNoFamily?.visibility = View.GONE
+        _binding?.layoutFamilyDetails?.visibility = View.VISIBLE
 
-        binding.tvFamilyTitle.text = prefs.familyName ?: "My Family"
-        binding.tvInviteCode.text = prefs.inviteCode ?: "------"
+        _binding?.tvFamilyTitle?.text = prefs.familyName ?: "My Family"
+        _binding?.tvInviteCode?.text = prefs.inviteCode ?: "------"
 
-        binding.btnCopyCode.setOnClickListener {
+        _binding?.btnCopyCode?.setOnClickListener {
             val clip = ClipData.newPlainText("Invite Code", prefs.inviteCode)
             val cm = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             cm.setPrimaryClip(clip)
             Toast.makeText(context, "Code copied!", Toast.LENGTH_SHORT).show()
         }
 
-        binding.btnShareCode.setOnClickListener {
+        _binding?.btnShareCode?.setOnClickListener {
             val shareText = "Join our family on SafeGuard! Use code: ${prefs.inviteCode}\n\nDownload: https://play.google.com/store/apps/details?id=com.childprotection.child"
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
@@ -114,26 +120,28 @@ class FamilyFragment : Fragment() {
     private fun loadMembers() {
         val familyId = prefs.familyId ?: return
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val res = ApiClient.getService().getFamilyMembers(familyId)
-                if (res.isSuccessful) {
+                if (res.isSuccessful && isAdded) {
                     val members = res.body()?.data ?: emptyList()
-                    binding.rvMembers.adapter = MembersAdapter(members) { member ->
+                    _binding?.rvMembers?.adapter = MembersAdapter(members) { member ->
                         if (member.role == "CHILD") showChildConsents(member)
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Failed to load members", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(context, "Failed to load members", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
     private fun showChildConsents(child: MemberData) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val res = ApiClient.getService().getConsents(child.id)
-                if (res.isSuccessful) {
+                if (res.isSuccessful && isAdded) {
                     val consents = res.body()?.data ?: emptyList()
                     val message = if (consents.isEmpty()) {
                         "No consents set for ${child.displayName} yet."
@@ -144,14 +152,18 @@ class FamilyFragment : Fragment() {
                         }
                     }
 
-                    AlertDialog.Builder(requireContext())
-                        .setTitle("Consents: ${child.displayName}")
-                        .setMessage(message)
-                        .setPositiveButton("OK", null)
-                        .show()
+                    if (isAdded && context != null) {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("Consents: ${child.displayName}")
+                            .setMessage(message)
+                            .setPositiveButton("OK", null)
+                            .show()
+                    }
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Failed to load consents", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(context, "Failed to load consents", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

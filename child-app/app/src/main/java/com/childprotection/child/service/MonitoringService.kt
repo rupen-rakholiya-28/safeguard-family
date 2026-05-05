@@ -1,13 +1,19 @@
 package com.childprotection.child.service
 
+import android.Manifest
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.BatteryManager
 import android.os.IBinder
+import android.os.Looper
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import com.google.android.gms.location.*
 import com.childprotection.child.R
 import com.childprotection.child.SafeGuardApp
 import com.childprotection.child.config.ConsentConfig
@@ -37,11 +43,22 @@ class MonitoringService : Service() {
     private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private lateinit var prefs: SecurePrefs
     private lateinit var riskDetectionService: RiskDetectionService
+    
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(result: LocationResult) {
+            result.lastLocation?.let { location ->
+                serviceScope.launch { sendLocation(location) }
+            }
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
         prefs = SecurePrefs(this)
         ApiClient.init(prefs)
+        
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         
         // Initialize risk detection only if enabled in ConsentConfig
         if (ConsentConfig.RISK_DETECTION_ENABLED) {
@@ -58,6 +75,7 @@ class MonitoringService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onDestroy() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
         serviceScope.cancel()
         super.onDestroy()
     }
@@ -80,6 +98,11 @@ class MonitoringService : Service() {
     }
 
     private fun startPeriodicSync() {
+        // Start location updates if enabled
+        if (ConsentConfig.LOCATION_SHARING_ENABLED && hasLocationPermission()) {
+            startLocationUpdates()
+        }
+        
         // Heartbeat every 5 minutes
         serviceScope.launch {
             while (isActive) {
@@ -110,6 +133,44 @@ class MonitoringService : Service() {
                     }
                 }
             }
+        }
+    }
+    
+    private fun hasLocationPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+               ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+    
+    private fun startLocationUpdates() {
+        if (!hasLocationPermission()) return
+        
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5 * 60 * 1000L)
+            .setMinUpdateIntervalMillis(3 * 60 * 1000L)
+            .build()
+            
+        try {
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+        } catch (e: SecurityException) {
+            // Permission not granted
+        }
+    }
+    
+    private suspend fun sendLocation(location: Location) {
+        // Check if user granted location consent
+        if (!prefs.isConsentGranted("LOCATION_SHARING")) {
+            return
+        }
+        
+        try {
+            val body = mapOf(
+                "latitude" to location.latitude,
+                "longitude" to location.longitude,
+                "accuracy" to location.accuracy,
+                "timestamp" to System.currentTimeMillis()
+            )
+            ApiClient.getService().reportLocation(body)
+        } catch (e: Exception) {
+            // Will retry next cycle
         }
     }
 

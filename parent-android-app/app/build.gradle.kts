@@ -17,7 +17,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // Local dev: use your machine IP. Production: use real domain.
-        buildConfigField("String", "API_BASE_URL", "\"http://192.168.88.6:8080/api/v1\"")
+        buildConfigField("String", "API_BASE_URL", "\"https://safeguard-family.onrender.com/api/v1\"")
     }
 
     buildTypes {

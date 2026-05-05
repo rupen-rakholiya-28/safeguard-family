@@ -39,24 +39,24 @@ class ControlsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         prefs = ParentPrefs(requireContext())
 
-        binding.rvPolicies.layoutManager = LinearLayoutManager(context)
+        _binding?.rvPolicies?.layoutManager = LinearLayoutManager(context)
 
         // Policy type spinner
         val policyTypes = arrayOf("SCREEN_TIME_LIMIT", "APP_BLOCK", "BEDTIME_MODE", "STUDY_MODE")
-        binding.spinnerPolicyType.adapter = ArrayAdapter(
+        _binding?.spinnerPolicyType?.adapter = ArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_dropdown_item, policyTypes
         )
 
-        binding.btnAddRule.setOnClickListener { createPolicy() }
+        _binding?.btnAddRule?.setOnClickListener { createPolicy() }
 
         loadPolicies()
     }
 
     private fun createPolicy() {
-        val type = binding.spinnerPolicyType.selectedItem.toString()
-        val limitStr = binding.etDailyLimit.text.toString().trim()
-        val start = binding.etStartTime.text.toString().trim()
-        val end = binding.etEndTime.text.toString().trim()
+        val type = _binding?.spinnerPolicyType?.selectedItem.toString()
+        val limitStr = _binding?.etDailyLimit?.text.toString().trim()
+        val start = _binding?.etStartTime?.text.toString().trim()
+        val end = _binding?.etEndTime?.text.toString().trim()
 
         val body = mutableMapOf<String, Any?>(
             "policyType" to type,
@@ -67,38 +67,43 @@ class ControlsFragment : Fragment() {
         if (start.isNotEmpty()) body["startTime"] = start
         if (end.isNotEmpty()) body["endTime"] = end
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val res = ApiClient.getService().createPolicy(body)
                 if (res.isSuccessful) {
-                    Toast.makeText(context, "Rule added!", Toast.LENGTH_SHORT).show()
-                    binding.etDailyLimit.text?.clear()
-                    binding.etStartTime.text?.clear()
-                    binding.etEndTime.text?.clear()
+                    if (isAdded) {
+                        Toast.makeText(context, "Rule added!", Toast.LENGTH_SHORT).show()
+                        _binding?.etDailyLimit?.text?.clear()
+                        _binding?.etStartTime?.text?.clear()
+                        _binding?.etEndTime?.text?.clear()
+                    }
                     loadPolicies()
                 } else {
-                    Toast.makeText(context, res.body()?.message ?: "Failed", Toast.LENGTH_SHORT).show()
+                    if (isAdded) {
+                        Toast.makeText(context, res.body()?.message ?: "Failed", Toast.LENGTH_SHORT).show()
+                    }
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Connection error", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(context, "Connection error", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
     private fun loadPolicies() {
-        // Load all policies for this family
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val res = ApiClient.getService().getPolicies("")
-                if (res.isSuccessful) {
+                if (res.isSuccessful && isAdded) {
                     val policies = res.body()?.data ?: emptyList()
                     if (policies.isEmpty()) {
-                        binding.tvNoPolicies.visibility = View.VISIBLE
-                        binding.rvPolicies.visibility = View.GONE
+                        _binding?.tvNoPolicies?.visibility = View.VISIBLE
+                        _binding?.rvPolicies?.visibility = View.GONE
                     } else {
-                        binding.tvNoPolicies.visibility = View.GONE
-                        binding.rvPolicies.visibility = View.VISIBLE
-                        binding.rvPolicies.adapter = PoliciesAdapter(policies) { policy ->
+                        _binding?.tvNoPolicies?.visibility = View.GONE
+                        _binding?.rvPolicies?.visibility = View.VISIBLE
+                        _binding?.rvPolicies?.adapter = PoliciesAdapter(policies) { policy ->
                             confirmDeletePolicy(policy)
                         }
                     }
@@ -119,13 +124,17 @@ class ControlsFragment : Fragment() {
     }
 
     private fun deletePolicy(id: String) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 ApiClient.getService().deletePolicy(id)
                 loadPolicies()
-                Toast.makeText(context, "Rule deleted", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(context, "Rule deleted", Toast.LENGTH_SHORT).show()
+                }
             } catch (e: Exception) {
-                Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

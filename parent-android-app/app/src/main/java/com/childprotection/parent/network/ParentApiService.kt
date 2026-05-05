@@ -45,6 +45,9 @@ interface ParentApiService {
         @Path("id") childId: String,
         @Query("date") date: String? = null
     ): Response<ApiResponse<JsonObject>>
+    
+    @GET("children/{id}/location")
+    suspend fun getLatestLocation(@Path("id") childId: String): Response<ApiResponse<JsonObject>>
 
     @GET("children/{id}/timeline")
     suspend fun getTimeline(

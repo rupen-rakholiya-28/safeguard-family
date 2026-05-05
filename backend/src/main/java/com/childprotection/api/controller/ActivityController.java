@@ -60,4 +60,11 @@ public class ActivityController {
         return ResponseEntity.ok(ApiResponse.ok("Screen time retrieved",
                 activityService.getScreenTimeSummary(childId, d)));
     }
+    
+    @GetMapping("/children/{childId}/location")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getLatestLocation(
+            @PathVariable UUID childId) {
+        return ResponseEntity.ok(ApiResponse.ok("Location retrieved",
+                activityService.getLatestLocation(childId)));
+    }
 }

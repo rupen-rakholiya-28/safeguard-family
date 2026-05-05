@@ -46,46 +46,54 @@ class AlertsFragment : Fragment() {
     private fun loadAlerts() {
         val familyId = prefs.familyId
         if (familyId == null) {
-            binding.tvNoAlerts.visibility = View.VISIBLE
-            binding.rvAlerts.visibility = View.GONE
-            binding.swipeRefresh.isRefreshing = false
+            _binding?.tvNoAlerts?.visibility = View.VISIBLE
+            _binding?.rvAlerts?.visibility = View.GONE
+            _binding?.swipeRefresh?.isRefreshing = false
             return
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val res = ApiClient.getService().getAlerts(familyId)
-                if (res.isSuccessful) {
+                if (res.isSuccessful && isAdded) {
                     val alerts = res.body()?.data ?: emptyList()
                     if (alerts.isEmpty()) {
-                        binding.tvNoAlerts.visibility = View.VISIBLE
-                        binding.rvAlerts.visibility = View.GONE
+                        _binding?.tvNoAlerts?.visibility = View.VISIBLE
+                        _binding?.rvAlerts?.visibility = View.GONE
                     } else {
-                        binding.tvNoAlerts.visibility = View.GONE
-                        binding.rvAlerts.visibility = View.VISIBLE
-                        binding.rvAlerts.adapter = AlertsAdapter(alerts) { alert ->
+                        _binding?.tvNoAlerts?.visibility = View.GONE
+                        _binding?.rvAlerts?.visibility = View.VISIBLE
+                        _binding?.rvAlerts?.adapter = AlertsAdapter(alerts) { alert ->
                             acknowledgeAlert(alert)
                         }
                     }
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Failed to load alerts", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(context, "Failed to load alerts", Toast.LENGTH_SHORT).show()
+                }
             } finally {
-                binding.swipeRefresh.isRefreshing = false
+                if (isAdded) {
+                    _binding?.swipeRefresh?.isRefreshing = false
+                }
             }
         }
     }
 
     private fun acknowledgeAlert(alert: AlertData) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val res = ApiClient.getService().acknowledgeAlert(alert.id)
                 if (res.isSuccessful) {
-                    Toast.makeText(context, "Alert acknowledged", Toast.LENGTH_SHORT).show()
+                    if (isAdded) {
+                        Toast.makeText(context, "Alert acknowledged", Toast.LENGTH_SHORT).show()
+                    }
                     loadAlerts()
                 }
             } catch (e: Exception) {
-                Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

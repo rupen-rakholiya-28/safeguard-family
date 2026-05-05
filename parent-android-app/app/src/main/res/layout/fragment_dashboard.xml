@@ -4,9 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -15,7 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="16dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="24dp">
 
             <!-- Header -->
             <LinearLayout
@@ -23,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -36,8 +39,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Hi, Parent 👋"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
+                        android:textSize="26sp"
+                        android:fontFamily="sans-serif-bold"
                         android:textColor="@color/text_primary" />
 
                     <TextView
@@ -46,15 +49,24 @@
                         android:layout_height="wrap_content"
                         android:text="Family Dashboard"
                         android:textSize="14sp"
-                        android:textColor="@color/text_secondary" />
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginTop="2dp" />
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/logout"
-                    style="@style/Widget.Material3.Button.TextButton" />
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:icon="@drawable/ic_logout"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="22dp"
+                    app:iconTint="@color/text_secondary"
+                    style="@style/Widget.Material3.Button.IconButton" />
             </LinearLayout>
 
             <!-- No Family Card -->
@@ -63,40 +75,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="@color/card_stroke">
+                app:cardCornerRadius="24dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/card">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="24dp"
+                    android:padding="32dp"
                     android:gravity="center">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="👨‍👩‍👧‍👦"
-                        android:textSize="48sp" />
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/ic_family"
+                        app:tint="@color/primary_light" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/no_family_yet"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
+                        android:text="No Family Yet"
+                        android:textSize="20sp"
+                        android:fontFamily="sans-serif-semibold"
                         android:textColor="@color/text_primary"
-                        android:layout_marginTop="12dp" />
+                        android:layout_marginTop="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/create_family_prompt"
+                        android:text="Create a family to start\nprotecting your children"
                         android:textSize="14sp"
                         android:textColor="@color/text_secondary"
                         android:gravity="center"
-                        android:layout_marginTop="4dp" />
+                        android:layout_marginTop="8dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Create Family"
+                        android:layout_marginTop="24dp"
+                        style="@style/Widget.Parent.Button" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -108,33 +127,56 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <!-- Family Overview Card -->
+                <!-- Family Overview Card - Gradient -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardBackgroundColor="@color/primary">
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="4dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:background="@drawable/bg_gradient_primary"
                         android:padding="20dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Family Overview"
-                            android:textSize="14sp"
-                            android:textColor="@color/white"
-                            android:alpha="0.8" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="8dp">
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Family Overview"
+                                android:textSize="14sp"
+                                android:textColor="@color/white"
+                                android:alpha="0.85" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:id="@+id/tvFamilyNameSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="My Family"
+                                android:textSize="12sp"
+                                android:textColor="@color/white"
+                                android:alpha="0.7" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -147,8 +189,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0"
-                                    android:textSize="36sp"
-                                    android:textStyle="bold"
+                                    android:textSize="40sp"
+                                    android:fontFamily="sans-serif-bold"
                                     android:textColor="@color/white" />
 
                                 <TextView
@@ -164,50 +206,294 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:gravity="center">
 
                                 <TextView
                                     android:id="@+id/tvMemberCount"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="0 members"
-                                    android:textSize="14sp"
+                                    android:text="0"
+                                    android:textSize="28sp"
+                                    android:fontFamily="sans-serif-bold"
                                     android:textColor="@color/white" />
 
                                 <TextView
-                                    android:id="@+id/tvAlertBadge"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="⚠️ 0 SOS"
-                                    android:textSize="14sp"
-                                    android:textColor="@color/warning"
-                                    android:visibility="gone"
-                                    android:layout_marginTop="4dp" />
+                                    android:text="Members"
+                                    android:textSize="13sp"
+                                    android:textColor="@color/white"
+                                    android:alpha="0.8" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="end">
+
+                                <TextView
+                                    android:id="@+id/tvAlertCount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="28sp"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:textColor="@color/warning" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Alerts"
+                                    android:textSize="13sp"
+                                    android:textColor="@color/white"
+                                    android:alpha="0.8" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Alert Count Card -->
-                <com.google.android.material.card.MaterialCardView
+                <!-- Children Section Header -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/card_stroke">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Children Activity"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-semibold"
+                        android:textColor="@color/text_primary" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp" />
+                </LinearLayout>
+
+                <!-- Child Card 1 - Screen Time -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardChild1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp"
+                    app:cardBackgroundColor="@color/card">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <!-- Child Header -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_child_avatar"
+                                android:background="@drawable/bg_avatar_circle"
+                                android:padding="12dp" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginStart="12dp">
+
+                                <TextView
+                                    android:id="@+id/tvChild1Name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Child"
+                                    android:textSize="16sp"
+                                    android:fontFamily="sans-serif-semibold"
+                                    android:textColor="@color/text_primary" />
+
+                                <TextView
+                                    android:id="@+id/tvChild1Status"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Online"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/success" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/btnChild1Location"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_location"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:padding="8dp"
+                                app:tint="@color/info" />
+                        </LinearLayout>
+
+                        <!-- Screen Time Stats -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tvChild1ScreenTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0h"
+                                    android:textSize="24sp"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:textColor="@color/primary" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Screen Time"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_tertiary" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="40dp"
+                                android:background="@color/divider" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tvChild1Apps"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="24sp"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:textColor="@color/secondary" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Apps Used"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_tertiary" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="40dp"
+                                android:background="@color/divider" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tvChild1Location"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="--"
+                                    android:textSize="16sp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:textColor="@color/success" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Location"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_tertiary" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- App Usage Bar -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Top Apps Today"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_secondary"
+                            android:layout_marginTop="16dp" />
+
+                        <LinearLayout
+                            android:id="@+id/layoutAppUsage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="8dp">
+
+                            <!-- App items will be added dynamically -->
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvNoAppUsage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No app usage data yet"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_tertiary"
+                            android:layout_marginTop="8dp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Alert Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAlerts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp"
+                    app:cardBackgroundColor="@color/card">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="20dp"
+                        android:padding="16dp"
                         android:gravity="center_vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🔔"
-                            android:textSize="32sp" />
+                        <FrameLayout
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_alert_circle">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_alerts"
+                                app:tint="@color/danger" />
+                        </FrameLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -219,22 +505,122 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/active_alerts"
-                                android:textSize="14sp"
-                                android:textColor="@color/text_secondary" />
+                                android:text="Recent Alerts"
+                                android:textSize="15sp"
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="@color/text_primary" />
 
                             <TextView
-                                android:id="@+id/tvAlertCount"
+                                android:id="@+id/tvLatestAlert"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textSize="28sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_primary" />
+                                android:text="No alerts"
+                                android:textSize="13sp"
+                                android:textColor="@color/text_secondary"
+                                android:layout_marginTop="2dp" />
                         </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvAlertBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0 new"
+                            android:textSize="12sp"
+                            android:textColor="@color/danger"
+                            android:background="@drawable/bg_danger_badge"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:visibility="gone" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+
+                <!-- Quick Actions -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quick Actions"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-semibold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardControls"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="1dp"
+                        app:cardBackgroundColor="@color/card"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/ic_controls"
+                                app:tint="@color/primary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Controls"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_primary"
+                                android:layout_marginTop="8dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardFamily"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="1dp"
+                        app:cardBackgroundColor="@color/card"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/ic_family"
+                                app:tint="@color/secondary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Family"
+                                android:textSize="14sp"
+                                android:textColor="@color/text_primary"
+                                android:layout_marginTop="8dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
