@@ -49,6 +49,7 @@ class DashboardActivity : AppCompatActivity() {
 
         setupUI()
         checkUsagePermission()
+        checkLocationPermission()
         startMonitoringService()
     }
 
@@ -300,6 +301,22 @@ class DashboardActivity : AppCompatActivity() {
                 }
                 .setNegativeButton(getString(R.string.cancel), null)
                 .show()
+        }
+    }
+
+    private fun checkLocationPermission() {
+        if (prefs.isConsentGranted("LOCATION_SHARING")) {
+            val fineLocation = androidx.core.app.ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+            if (fineLocation != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                androidx.core.app.ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    ),
+                    1001
+                )
+            }
         }
     }
 
