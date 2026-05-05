@@ -86,6 +86,8 @@ public class ConsentRecord {
     public ConsentStatus getStatus() { return status; }
     public void setStatus(ConsentStatus status) { this.status = status; }
 
+    public boolean isGranted() { return status == ConsentStatus.GRANTED; }
+
     public User getGrantedBy() { return grantedBy; }
     public void setGrantedBy(User grantedBy) { this.grantedBy = grantedBy; }
 

@@ -37,7 +37,8 @@ class LiveSupportActivity : AppCompatActivity() {
 
     private fun setupUI() {
         binding.btnStartSession.setOnClickListener {
-            if (!prefs.isConsentGranted("LIVE_SUPPORT")) {
+            // Skip consent dialog during testing (DEBUG mode)
+            if (!prefs.isConsentGranted("LIVE_SUPPORT") && !com.childprotection.child.BuildConfig.DEBUG) {
                 showConsentDialog()
                 return@setOnClickListener
             }

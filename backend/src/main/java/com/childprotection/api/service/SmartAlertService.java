@@ -40,8 +40,19 @@ public class SmartAlertService {
      */
     @Transactional
     public Optional<Alert> processRiskEvent(RiskEvent event) {
+        // PHASE 4: Thresholding - ignore low confidence signals to prevent noise
+        if (event.getConfidence() < 0.6) {
+            return Optional.empty();
+        }
+
         // Only generate alerts for HIGH or CRITICAL events
         if (event.getRiskLevel() != RiskLevel.HIGH && event.getRiskLevel() != RiskLevel.CRITICAL) {
+            return Optional.empty();
+        }
+
+        // PHASE 5: Throttling - don't spam if an alert of this type was sent in the last 2 hours
+        AlertType type = mapCategoryToAlertType(event.getRiskCategory());
+        if (alertService.hasRecentAlert(event.getChild().getId(), type, 2)) {
             return Optional.empty();
         }
 

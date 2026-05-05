@@ -24,4 +24,6 @@ public interface RiskEventRepository extends JpaRepository<RiskEvent, UUID> {
     List<RiskEvent> findByChildIdAndRiskCategoryOrderByCreatedAtDesc(UUID childId, RiskCategory category);
 
     long countByChildIdAndCreatedAtBetween(UUID childId, LocalDateTime start, LocalDateTime end);
+
+    java.util.Optional<RiskEvent> findByIdempotencyKey(String idempotencyKey);
 }

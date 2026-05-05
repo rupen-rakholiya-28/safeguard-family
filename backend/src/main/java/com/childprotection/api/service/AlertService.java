@@ -53,6 +53,10 @@ public class AlertService {
         return alertRepository.findByFamilyIdAndAcknowledgedFalseOrderByCreatedAtDesc(familyId);
     }
 
+    public boolean hasRecentAlert(UUID childId, AlertType type, int hours) {
+        return alertRepository.existsByChildIdAndTypeAndCreatedAtAfter(childId, type, LocalDateTime.now().minusHours(hours));
+    }
+
     @Transactional
     public Alert acknowledgeAlert(UUID alertId, User user) {
         Alert alert = alertRepository.findById(alertId)

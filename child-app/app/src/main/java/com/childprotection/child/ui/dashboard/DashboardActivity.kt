@@ -228,10 +228,14 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun showMonitoringDetails() {
+        // Phase 3 & 7 Transparency Updates
         val features = listOf(
             "SCREEN_TIME_TRACKING" to "⏱️ Screen Time Tracking",
             "APP_USAGE_TRACKING" to "📱 App Usage Tracking",
             "LOCATION_SHARING" to "📍 Location Sharing",
+            "WEB_PROTECTION" to "🌐 Web Filtering",
+            "RISK_DETECTION" to "🛡️ Safety Scanning",
+            "LIVE_SUPPORT" to "🎙️ Live Assistance",
             "EMERGENCY_CONTACT_SHARING" to "🆘 Emergency Contacts"
         )
 

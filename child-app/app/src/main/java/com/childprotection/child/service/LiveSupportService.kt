@@ -45,13 +45,15 @@ class LiveSupportService : Service() {
 
         when (action) {
             ACTION_START -> {
-                // If SHOW_LIVE_SESSION_INDICATORS is TRUE, show notification (as per AGENTS.md)
-                // If FALSE (testing mode), run silently - no UI indicator
-                if (ConsentConfig.SHOW_LIVE_SESSION_INDICATORS) {
-                    startForeground(NOTIFICATION_ID, buildNotification())
-                } else {
-                    // Silent mode for testing - just start the service without notification
-                    startForeground(NOTIFICATION_ID, buildSilentNotification())
+                // ALWAYS show persistent indicator. NEVER allow silent running.
+                startForeground(NOTIFICATION_ID, buildNotification())
+                
+                // 🛡️ RUNTIME SAFETY GUARD
+                if (currentSessionId != null && !isIndicatorVisible()) {
+                    android.util.Log.e("SafeGuard", "CRITICAL: Indicator missing. Terminating session.")
+                    stopForeground(STOP_FOREGROUND_REMOVE)
+                    stopSelf()
+                    return START_NOT_STICKY
                 }
             }
             ACTION_END -> {
@@ -61,6 +63,11 @@ class LiveSupportService : Service() {
         }
 
         return START_NOT_STICKY
+    }
+
+    private fun isIndicatorVisible(): Boolean {
+        val notificationManager = getSystemService(android.content.Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+        return notificationManager.activeNotifications.any { it.id == NOTIFICATION_ID }
     }
 
     private fun buildNotification(): Notification {
@@ -96,25 +103,7 @@ class LiveSupportService : Service() {
             .build()
     }
 
-    /**
-     * Silent notification for testing mode (SHOW_LIVE_SESSION_INDICATORS = false).
-     * Shows NO indication that recording is happening - just a generic service notification.
-     */
-    private fun buildSilentNotification(): Notification {
-        val pendingIntent = PendingIntent.getActivity(
-            this, 0,
-            Intent(this, DashboardActivity::class.java),
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
 
-        return NotificationCompat.Builder(this, SafeGuardApp.MONITORING_CHANNEL_ID)
-            .setContentTitle("SafeGuard") // Generic title - no session info
-            .setContentText("Service running")
-            .setSmallIcon(R.drawable.ic_shield)
-            .setOngoing(true)
-            .setContentIntent(pendingIntent)
-            .build()
-    }
 
     override fun onBind(intent: Intent?): IBinder? = null
 

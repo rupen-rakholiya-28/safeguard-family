@@ -24,15 +24,18 @@ public class RiskController {
     private final SmartAlertService smartAlertService;
     private final UserRepository userRepo;
     private final FamilyMemberRepository memberRepo;
+    private final ConsentEnforcementService consentEnforcer;
 
     public RiskController(RiskScoringService riskScoringService,
                           SmartAlertService smartAlertService,
                           UserRepository userRepo,
-                          FamilyMemberRepository memberRepo) {
+                          FamilyMemberRepository memberRepo,
+                          ConsentEnforcementService consentEnforcer) {
         this.riskScoringService = riskScoringService;
         this.smartAlertService = smartAlertService;
         this.userRepo = userRepo;
         this.memberRepo = memberRepo;
+        this.consentEnforcer = consentEnforcer;
     }
 
     /**
@@ -51,6 +54,9 @@ public class RiskController {
 
         Family family = memberships.get(0).getFamily();
 
+        // Enforce explicit consent for risk detection
+        consentEnforcer.requireConsent(child.getId(), ConsentFeature.RISK_DETECTION);
+
         RiskCategory category = RiskCategory.valueOf((String) body.get("riskCategory"));
         RiskLevel level = RiskLevel.valueOf((String) body.get("riskLevel"));
         double confidence = body.containsKey("confidence") ?
@@ -59,9 +65,10 @@ public class RiskController {
         String description = (String) body.get("description");
         String source = (String) body.getOrDefault("source", "ON_DEVICE");
         String relatedApp = (String) body.get("relatedAppPackage");
+        String idempotencyKey = (String) body.get("idempotencyKey");
 
         RiskEvent event = riskScoringService.reportRiskEvent(
-                child, family, category, level, confidence, title, description, source, relatedApp);
+                child, family, category, level, confidence, title, description, source, relatedApp, idempotencyKey);
 
         // Process through smart alert engine
         smartAlertService.processRiskEvent(event);

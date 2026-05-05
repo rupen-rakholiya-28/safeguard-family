@@ -41,7 +41,15 @@ public class RiskScoringService {
     public RiskEvent reportRiskEvent(User child, Family family, RiskCategory category,
                                       RiskLevel level, double confidence,
                                       String title, String description,
-                                      String source, String relatedApp) {
+                                      String source, String relatedApp, String idempotencyKey) {
+                                      
+        if (idempotencyKey != null && !idempotencyKey.isEmpty()) {
+            java.util.Optional<RiskEvent> existing = riskEventRepo.findByIdempotencyKey(idempotencyKey);
+            if (existing.isPresent()) {
+                return existing.get();
+            }
+        }
+
         RiskEvent event = new RiskEvent();
         event.setChild(child);
         event.setFamily(family);
@@ -52,6 +60,7 @@ public class RiskScoringService {
         event.setDescription(description);
         event.setSource(source != null ? source : "ON_DEVICE");
         event.setRelatedAppPackage(relatedApp);
+        event.setIdempotencyKey(idempotencyKey);
         return riskEventRepo.save(event);
     }
 
@@ -188,7 +197,7 @@ public class RiskScoringService {
                     RiskCategory.LATE_NIGHT_USAGE, RiskLevel.MEDIUM, 0.75,
                     "Late-night device usage detected",
                     "Device is active between 10 PM and 6 AM",
-                    "SERVER", null);
+                    "SERVER", null, null);
             generated.add(event);
         }
 

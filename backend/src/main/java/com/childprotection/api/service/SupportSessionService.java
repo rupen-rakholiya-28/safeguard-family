@@ -19,18 +19,18 @@ import com.childprotection.api.model.enums.UserRole;
 public class SupportSessionService {
 
     private final SupportSessionRepository sessionRepo;
-    private final ConsentRecordRepository consentRepo;
+    private final ConsentEnforcementService consentEnforcer;
     private final AuditLogService auditLogService;
     private final FamilyMemberRepository memberRepo;
     private final FCMService fcmService;
 
     public SupportSessionService(SupportSessionRepository sessionRepo,
-                                 ConsentRecordRepository consentRepo,
+                                 ConsentEnforcementService consentEnforcer,
                                  AuditLogService auditLogService,
                                  FamilyMemberRepository memberRepo,
                                  FCMService fcmService) {
         this.sessionRepo = sessionRepo;
-        this.consentRepo = consentRepo;
+        this.consentEnforcer = consentEnforcer;
         this.auditLogService = auditLogService;
         this.memberRepo = memberRepo;
         this.fcmService = fcmService;
@@ -47,12 +47,8 @@ public class SupportSessionService {
             }
         }
 
-        // 1. Enforce explicit consent for LIVE_SUPPORT
-        Optional<ConsentRecord> consent = consentRepo.findByChildIdAndFeatureName(
-                child.getId(), ConsentFeature.LIVE_SUPPORT);
-        if (consent.isEmpty() || consent.get().getStatus() != ConsentStatus.GRANTED) {
-            throw new RuntimeException("Explicit consent for live support sessions is required");
-        }
+        // 1. Enforce explicit consent for LIVE_SUPPORT via Enforcement Layer
+        consentEnforcer.requireConsent(child.getId(), ConsentFeature.LIVE_SUPPORT);
 
         // 2. Check if an active session already exists for this child
         Optional<SupportSession> active = sessionRepo.findByChildIdAndStatus(

@@ -58,6 +58,10 @@ public class RiskEvent {
     @Column(nullable = false)
     private boolean reviewed = false;
 
+    /** Idempotency key to prevent duplicate events */
+    @Column(name = "idempotency_key", unique = true)
+    private String idempotencyKey;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -90,5 +94,7 @@ public class RiskEvent {
     public void setRelatedAppPackage(String p) { this.relatedAppPackage = p; }
     public boolean isReviewed() { return reviewed; }
     public void setReviewed(boolean r) { this.reviewed = r; }
+    public String getIdempotencyKey() { return idempotencyKey; }
+    public void setIdempotencyKey(String key) { this.idempotencyKey = key; }
     public LocalDateTime getCreatedAt() { return createdAt; }
 }

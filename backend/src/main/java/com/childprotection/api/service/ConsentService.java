@@ -107,6 +107,7 @@ public class ConsentService {
             case WEB_PROTECTION -> "Enable safe browsing and web filtering";
             case EMERGENCY_CONTACT_SHARING -> "Share emergency contact information";
             case LIVE_SUPPORT -> "Allow live voice help and screen sharing sessions";
+            case RISK_DETECTION -> "Allow local device behavior scanning for risk detection";
         };
     }
 }
