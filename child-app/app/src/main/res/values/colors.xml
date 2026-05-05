@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#7C3AED</color>
-    <color name="primary_dark">#6D28D9</color>
-    <color name="primary_light">#A78BFA</color>
-    <color name="primary_variant">#5B21B6</color>
-    <color name="secondary">#06B6D4</color>
-    <color name="secondary_light">#22D3EE</color>
-    <color name="accent">#F472B6</color>
+    <!-- Phase 1 Design System Colors -->
+    <color name="primary">#2563EB</color>
+    <color name="primary_dark">#1D4ED8</color>
+    <color name="primary_light">#60A5FA</color>
+    <color name="primary_variant">#1E40AF</color>
+    <color name="secondary">#3B82F6</color>
+    <color name="secondary_light">#93C5FD</color>
+    <color name="accent">#3B82F6</color>
 
-    <color name="background_dark">#0F0F1A</color>
-    <color name="surface_dark">#1A1A2E</color>
-    <color name="card_dark">#252542</color>
+    <color name="background_dark">#0F172A</color>
+    <color name="surface_dark">#1E293B</color>
+    <color name="card_dark">#334155</color>
 
-    <color name="background_light">#F5F3FF</color>
+    <color name="background_light">#F8FAFC</color>
     <color name="surface_light">#FFFFFF</color>
     <color name="card_light">#FFFFFF</color>
 
     <color name="text_primary_dark">#F8FAFC</color>
-    <color name="text_secondary_dark">#A5B4FC</color>
+    <color name="text_secondary_dark">#94A3B8</color>
     <color name="text_hint_dark">#64748B</color>
 
-    <color name="text_primary_light">#1E1B4B</color>
-    <color name="text_secondary_light">#6B7280</color>
-    <color name="text_hint_light">#9CA3AF</color>
+    <color name="text_primary_light">#0F172A</color>
+    <color name="text_secondary_light">#64748B</color>
+    <color name="text_hint_light">#94A3B8</color>
 
-    <color name="success">#10B981</color>
-    <color name="success_light">#D1FAE5</color>
+    <color name="success">#16A34A</color>
+    <color name="success_light">#DCFCE7</color>
     <color name="warning">#F59E0B</color>
     <color name="warning_light">#FEF3C7</color>
-    <color name="danger">#EF4444</color>
+    <color name="danger">#DC2626</color>
     <color name="danger_light">#FEE2E2</color>
     <color name="info">#3B82F6</color>
     <color name="info_light">#DBEAFE</color>
 
     <color name="sos_red">#DC2626</color>
-    <color name="sos_red_dark">#B91C1C</color>
-    <color name="sos_red_gradient_start">#EF4444</color>
+    <color name="sos_red_dark">#991B1B</color>
+    <color name="sos_red_gradient_start">#DC2626</color>
     <color name="sos_red_gradient_end">#DC2626</color>
 
-    <color name="gradient_purple_start">#7C3AED</color>
-    <color name="gradient_purple_end">#A855F7</color>
-    <color name="gradient_cyan_start">#06B6D4</color>
-    <color name="gradient_cyan_end">#22D3EE</color>
+    <color name="gradient_purple_start">#2563EB</color>
+    <color name="gradient_purple_end">#2563EB</color>
+    <color name="gradient_cyan_start">#3B82F6</color>
+    <color name="gradient_cyan_end">#3B82F6</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>

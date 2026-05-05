@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp"
+        android:padding="16dp"
         android:gravity="center_horizontal">
 
         <!-- Logo -->
@@ -110,7 +110,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnJoinFamily"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:text="@string/join_family"
             style="@style/Widget.SafeGuard.Button.Primary" />
 

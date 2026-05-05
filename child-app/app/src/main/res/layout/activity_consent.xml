@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp"
+        android:padding="16dp"
         android:gravity="center">
 
         <TextView
@@ -44,8 +44,9 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnFinishSetup"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_margin="24dp"
+        android:layout_height="wrap_content"
+            android:minHeight="48dp"
+        android:layout_margin="16dp"
         android:text="@string/finish_setup"
         style="@style/Widget.SafeGuard.Button.Primary" />
 </LinearLayout>

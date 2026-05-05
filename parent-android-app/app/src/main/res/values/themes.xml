@@ -16,37 +16,41 @@
     </style>
 
     <style name="Widget.Parent.Card" parent="Widget.Material3.CardView.Elevated">
-        <item name="cardCornerRadius">20dp</item>
+        <item name="cardCornerRadius">12dp</item>
         <item name="cardElevation">2dp</item>
         <item name="cardBackgroundColor">@color/card</item>
+        <item name="contentPadding">16dp</item>
     </style>
 
     <style name="Widget.Parent.Card.Filled" parent="Widget.Material3.CardView.Filled">
-        <item name="cardCornerRadius">20dp</item>
+        <item name="cardCornerRadius">12dp</item>
         <item name="cardBackgroundColor">@color/primary</item>
     </style>
 
     <style name="Widget.Parent.Button" parent="Widget.Material3.Button">
-        <item name="cornerRadius">14dp</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="backgroundTint">@color/primary</item>
     </style>
 
     <style name="Widget.Parent.Button.Secondary" parent="Widget.Material3.Button.TonalButton">
-        <item name="cornerRadius">14dp</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:textSize">16sp</item>
         <item name="backgroundTint">@color/primary_light</item>
     </style>
 
     <style name="Widget.Parent.Button.Outline" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="cornerRadius">14dp</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:textSize">16sp</item>
         <item name="strokeColor">@color/primary</item>
         <item name="android:textColor">@color/primary</item>
@@ -58,10 +62,10 @@
     </style>
 
     <style name="Widget.Parent.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
-        <item name="boxCornerRadiusTopStart">14dp</item>
-        <item name="boxCornerRadiusTopEnd">14dp</item>
-        <item name="boxCornerRadiusBottomStart">14dp</item>
-        <item name="boxCornerRadiusBottomEnd">14dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
         <item name="boxStrokeColor">@color/primary</item>
         <item name="hintTextColor">@color/primary</item>
     </style>
@@ -94,7 +98,7 @@
     </style>
 
     <style name="ShapeAppearance.Parent.Card" parent="ShapeAppearance.Material3.Corner.Medium">
-        <item name="cornerSize">20dp</item>
+        <item name="cornerSize">12dp</item>
     </style>
 
     <style name="Widget.Parent.BottomNav" parent="Widget.Material3.BottomNavigationView">

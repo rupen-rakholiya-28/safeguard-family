@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="16dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,7 +45,8 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCreateFamily"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="wrap_content"
+            android:minHeight="48dp"
                 android:text="@string/create_family"
                 style="@style/Widget.Parent.Button" />
         </LinearLayout>
@@ -73,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="12dp"
                 app:cardBackgroundColor="@color/info_bg"
                 app:strokeWidth="1dp"
                 app:strokeColor="@color/info">
@@ -82,7 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp"
+                    android:padding="16dp"
                     android:gravity="center">
 
                     <TextView
