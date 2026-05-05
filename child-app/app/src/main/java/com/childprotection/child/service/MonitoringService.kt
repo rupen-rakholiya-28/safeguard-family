@@ -115,8 +115,8 @@ class MonitoringService : Service() {
         if (ConsentConfig.SCREEN_TIME_TRACKING_ENABLED || ConsentConfig.APP_USAGE_TRACKING_ENABLED) {
             serviceScope.launch {
                 while (isActive) {
-                    delay(15 * 60 * 1000L) // 15 minutes
                     syncUsageData()
+                    delay(15 * 60 * 1000L) // 15 minutes
                 }
             }
         }
@@ -206,12 +206,18 @@ class MonitoringService : Service() {
 
             if (appUsage.isEmpty()) return
 
+            val formatter = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", java.util.Locale.US)
+            formatter.timeZone = java.util.TimeZone.getDefault()
+
             val events = appUsage.map { usage ->
+                val endTimeMs = if (usage.lastUsed > 0) usage.lastUsed else System.currentTimeMillis()
+                val startTimeMs = endTimeMs - usage.durationMs
                 mapOf(
                     "packageName" to usage.packageName,
                     "appName" to tracker.getAppName(usage.packageName),
-                    "durationMinutes" to usage.durationMinutes,
-                    "date" to java.time.LocalDate.now().toString()
+                    "usageDurationMs" to usage.durationMs,
+                    "startTime" to formatter.format(java.util.Date(startTimeMs)),
+                    "endTime" to formatter.format(java.util.Date(endTimeMs))
                 )
             }
 

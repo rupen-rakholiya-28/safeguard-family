@@ -57,6 +57,7 @@ class UsageTracker(private val context: Context) {
             ?.map { stat ->
                 AppUsageData(
                     packageName = stat.packageName,
+                    durationMs = stat.totalTimeInForeground,
                     durationMinutes = stat.totalTimeInForeground / 60_000,
                     lastUsed = stat.lastTimeUsed
                 )
@@ -79,6 +80,7 @@ class UsageTracker(private val context: Context) {
 
 data class AppUsageData(
     val packageName: String,
+    val durationMs: Long,
     val durationMinutes: Long,
     val lastUsed: Long
 )
