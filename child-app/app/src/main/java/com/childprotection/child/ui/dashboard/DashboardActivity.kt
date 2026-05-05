@@ -8,6 +8,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.AppOpsManagerCompat
 import androidx.lifecycle.lifecycleScope
 import com.childprotection.child.R
 import com.childprotection.child.config.ConsentConfig
@@ -275,13 +276,13 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun hasUsagePermission(): Boolean {
-        val appOps = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        val mode = appOps.checkOpNoThrow(
+        val mode = AppOpsManagerCompat.noteOpNoThrow(
+            this,
             AppOpsManager.OPSTR_GET_USAGE_STATS,
             android.os.Process.myUid(),
             packageName
         )
-        return mode == AppOpsManager.MODE_ALLOWED
+        return mode == AppOpsManagerCompat.MODE_ALLOWED
     }
 
     private fun startMonitoringService() {

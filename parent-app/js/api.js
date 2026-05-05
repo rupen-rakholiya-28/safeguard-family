@@ -71,6 +71,21 @@ class ApiClient {
     }
     acknowledgeAlert(id) { return this.put(`/alerts/${id}/acknowledge`); }
 
+    // Risk & Intelligence (Phase 2)
+    getRiskScore(childId) { return this.get(`/risk/score/${childId}`); }
+    getRiskTrend(childId, days=7) { return this.get(`/risk/trend/${childId}?days=${days}`); }
+    getSmartSuggestions(childId) { return this.get(`/risk/suggestions/${childId}`); }
+
+    // Web Safety (Phase 2)
+    getWebFilters(childId) { return this.get(`/web-safety/filters/${childId}`); }
+    updateWebFilter(data) { return this.put(`/web-safety/filters/${data.id}`, data); }
+    getWebHistory(childId) { return this.get(`/web-safety/history/${childId}`); }
+
+    // Live Support & Assistance (Phase 3)
+    getActiveSession(childId) { return this.get(`/support-sessions/active/${childId}`); }
+    initiateSession(data) { return this.post('/support-sessions/initiate', data); }
+    endSession(sessionId) { return this.post(`/support-sessions/${sessionId}/end`, {}); }
+
     // Devices
     getDevicesByFamily(familyId) { return this.get(`/devices?familyId=${familyId}`); }
 }

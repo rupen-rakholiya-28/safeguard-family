@@ -76,7 +76,6 @@ class DashboardFragment : Fragment() {
                 if (membersRes.isSuccessful && isAdded) {
                     val members = membersRes.body()?.data ?: emptyList()
                     val children = members.filter { it.role == "CHILD" }
-                    val parents = members.filter { it.role == "PARENT" }
                     
                     binding.tvChildCount.text = "${children.size}"
                     binding.tvMemberCount.text = "${members.size}"

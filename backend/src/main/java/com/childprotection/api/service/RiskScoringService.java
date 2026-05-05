@@ -131,14 +131,16 @@ public class RiskScoringService {
         daily.setRiskLevel(level);
         daily.setEventCount(events.size());
 
-        // Count late-night events (between 10pm and 6am)
-        long lateNightEvents = events.stream()
-                .filter(e -> {
-                    LocalTime time = e.getCreatedAt().toLocalTime();
+        // Count late-night usage accurately
+        List<AppUsageEvent> usageEvents = usageRepo.findByChildIdAndDateRange(childId, dayStart, dayEnd);
+        long lateNightMs = usageEvents.stream()
+                .filter(u -> {
+                    LocalTime time = u.getReportedAt().toLocalTime();
                     return time.isAfter(LocalTime.of(22, 0)) || time.isBefore(LocalTime.of(6, 0));
                 })
-                .count();
-        daily.setLateNightMinutes((int) (lateNightEvents * 15)); // Estimate 15 min per event
+                .mapToLong(u -> u.getUsageDurationMs() != null ? u.getUsageDurationMs() : 0L)
+                .sum();
+        daily.setLateNightMinutes((int) (lateNightMs / 60000));
 
         return dailyScoreRepo.save(daily);
     }

@@ -55,12 +55,17 @@ public class EmergencyWorkflowService {
 
         // 3. Notify guardians via FCM
         for (UUID guardianId : guardianIds) {
-            fcmService.sendToUser(guardianId, "🆘 Emergency SOS",
-                    child.getDisplayName() + " needs immediate help!", Map.of(
-                            "type", "SOS",
-                            "childId", child.getId().toString(),
-                            "alertId", alert.getId().toString()
-                    ));
+            try {
+                fcmService.sendToUser(guardianId, "🆘 Emergency SOS",
+                        child.getDisplayName() + " needs immediate help!", Map.of(
+                                "type", "SOS",
+                                "childId", child.getId().toString(),
+                                "alertId", alert.getId().toString()
+                        ));
+            } catch (Exception e) {
+                // Log the failure but continue notifying other guardians
+                System.err.println("Failed to send SOS FCM to guardian " + guardianId + ": " + e.getMessage());
+            }
         }
 
         auditLogService.log(child.getId(), "EMERGENCY", alert.getId().toString(),

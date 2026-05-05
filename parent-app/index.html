@@ -6,6 +6,7 @@
     <meta name="description" content="SafeGuard Family - Consent-first child safety platform for transparent family protection">
     <title>SafeGuard Family — Parent Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="bg-glow"></div>
@@ -83,6 +84,15 @@
                     <button class="nav-item" data-page="controls" onclick="showPage('controls')">
                         <span class="icon">⚙️</span> Controls
                     </button>
+                    <button class="nav-item" data-page="intelligence" onclick="showPage('intelligence')">
+                        <span class="icon">🧠</span> Intelligence
+                    </button>
+                    <button class="nav-item" data-page="websafety" onclick="showPage('websafety')">
+                        <span class="icon">🌐</span> Web Safety
+                    </button>
+                    <button class="nav-item" data-page="livesupport" onclick="showPage('livesupport')">
+                        <span class="icon">🎧</span> Live Assistance
+                    </button>
                     <button class="nav-item" data-page="alerts" onclick="showPage('alerts')">
                         <span class="icon">🔔</span> Alerts
                     </button>
@@ -156,6 +166,39 @@
                         </div>
                     </div>
                     <div id="alerts-content"></div>
+                </div>
+
+                <!-- Intelligence (Phase 2) -->
+                <div id="page-intelligence" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h2>Safety Intelligence</h2>
+                            <p>AI-driven risk scoring, trends, and smart suggestions</p>
+                        </div>
+                    </div>
+                    <div id="intelligence-content"></div>
+                </div>
+
+                <!-- Web Safety (Phase 2) -->
+                <div id="page-websafety" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h2>Web Safety</h2>
+                            <p>Manage category-based filtering and safe browsing</p>
+                        </div>
+                    </div>
+                    <div id="websafety-content"></div>
+                </div>
+
+                <!-- Live Assistance (Phase 3) -->
+                <div id="page-livesupport" class="page hidden">
+                    <div class="page-header">
+                        <div>
+                            <h2>Live Assistance</h2>
+                            <p>Initiate transparent screen sharing and voice support sessions</p>
+                        </div>
+                    </div>
+                    <div id="livesupport-content"></div>
                 </div>
             </main>
         </div>

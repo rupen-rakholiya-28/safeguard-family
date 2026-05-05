@@ -16,11 +16,13 @@ function showPage(page) {
     
     currentPage = page;
     
-    switch(page) {
         case 'dashboard': loadDashboard(); break;
         case 'family': loadFamily(); break;
         case 'consents': loadConsents(); break;
         case 'controls': loadControls(); break;
+        case 'intelligence': loadIntelligence(); break;
+        case 'websafety': loadWebSafety(); break;
+        case 'livesupport': loadLiveSupport(); break;
         case 'alerts': loadAlerts(); break;
     }
 }
@@ -492,7 +494,238 @@ async function ackAlert(id) {
         await api.acknowledgeAlert(id);
         showToast('Alert acknowledged', 'success');
         loadAlerts();
-    } catch(err) { showToast(err.message, 'error'); }
+}
+
+// ===== Phase 2: Intelligence =====
+async function loadIntelligence() {
+    const container = document.getElementById('intelligence-content');
+    if (!currentFamily || currentChildren.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">🧠</div><p>Link a child device first</p></div>';
+        return;
+    }
+    const childId = currentChildren[0].id;
+    let score = null, trend = [], suggestions = [];
+    try {
+        const scoreRes = await api.getRiskScore(childId);
+        score = scoreRes.data;
+        const trendRes = await api.getRiskTrend(childId);
+        trend = trendRes.data || [];
+        const suggRes = await api.getSmartSuggestions(childId);
+        suggestions = suggRes.data || [];
+    } catch(e) {}
+
+    container.innerHTML = `
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title">🛡️ Current Risk Score</div>
+                <div style="text-align:center; margin: 32px 0;">
+                    <div style="font-size: 64px; font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        ${score ? score.overallScore : 0}
+                    </div>
+                    <div style="color: var(--text-secondary); text-transform: uppercase; font-weight: 600; font-size: 14px; margin-top: 8px;">
+                        Status: <span class="badge badge-${score && score.riskLevel === 'LOW' ? 'granted' : 'pending'}">${score ? score.riskLevel : 'Unknown'}</span>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div style="text-align:center; background:var(--bg-secondary); padding: 16px; border-radius:var(--radius-md);">
+                        <div style="font-size:24px;">⏱️</div>
+                        <div style="font-weight:600; font-size:18px;">${score ? score.lateNightMinutes : 0}m</div>
+                        <div style="font-size:12px; color:var(--text-muted);">Late Night Usage</div>
+                    </div>
+                    <div style="text-align:center; background:var(--bg-secondary); padding: 16px; border-radius:var(--radius-md);">
+                        <div style="font-size:24px;">🔔</div>
+                        <div style="font-weight:600; font-size:18px;">${score ? score.eventCount : 0}</div>
+                        <div style="font-size:12px; color:var(--text-muted);">Today's Events</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">📈 7-Day Trend</div>
+                <canvas id="riskChart"></canvas>
+            </div>
+        </div>
+        <div class="card" style="margin-top: 24px;">
+            <div class="card-title">💡 AI Smart Suggestions</div>
+            ${suggestions.length === 0 ? '<p style="color:var(--text-secondary)">No urgent suggestions right now.</p>' : ''}
+            ${suggestions.map(s => `
+                <div class="alert-item severity-${s.level}">
+                    <div class="alert-content">
+                        <div class="alert-title">${s.title}</div>
+                        <div class="alert-msg">${s.description}</div>
+                        <div class="alert-time">Action: <strong>${s.recommendedAction}</strong></div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+
+    if (trend.length > 0) {
+        const ctx = document.getElementById('riskChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: trend.map(t => new Date(t.scoreDate).toLocaleDateString(undefined, {weekday:'short'})),
+                datasets: [{
+                    label: 'Risk Score',
+                    data: trend.map(t => t.overallScore),
+                    borderColor: '#8b5cf6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    }
+}
+
+// ===== Phase 2: Web Safety =====
+async function loadWebSafety() {
+    const container = document.getElementById('websafety-content');
+    if (!currentFamily || currentChildren.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">🌐</div><p>Link a child device first</p></div>';
+        return;
+    }
+    const childId = currentChildren[0].id;
+    let filters = null;
+    try {
+        const res = await api.getWebFilters(childId);
+        filters = res.data;
+    } catch(e) {}
+
+    if (!filters) {
+        container.innerHTML = '<div class="empty-state"><p>No web filter configuration found.</p></div>';
+        return;
+    }
+
+    container.innerHTML = `
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title">🔒 Category Blocking</div>
+                <div class="consent-item" onclick="toggleFilter('${filters.id}', 'blockAdultContent', ${!filters.blockAdultContent})">
+                    <div>
+                        <div class="feature-name">🔞 Adult Content</div>
+                        <div class="feature-desc">Block explicit websites and searches</div>
+                    </div>
+                    <span class="badge badge-${filters.blockAdultContent ? 'granted' : 'revoked'}">${filters.blockAdultContent ? 'ON' : 'OFF'}</span>
+                </div>
+                <div class="consent-item" onclick="toggleFilter('${filters.id}', 'blockViolence', ${!filters.blockViolence})">
+                    <div>
+                        <div class="feature-name">⚔️ Violence / Weapons</div>
+                        <div class="feature-desc">Block violent content and imagery</div>
+                    </div>
+                    <span class="badge badge-${filters.blockViolence ? 'granted' : 'revoked'}">${filters.blockViolence ? 'ON' : 'OFF'}</span>
+                </div>
+                <div class="consent-item" onclick="toggleFilter('${filters.id}', 'blockGambling', ${!filters.blockGambling})">
+                    <div>
+                        <div class="feature-name">🎰 Gambling</div>
+                        <div class="feature-desc">Block gambling and betting sites</div>
+                    </div>
+                    <span class="badge badge-${filters.blockGambling ? 'granted' : 'revoked'}">${filters.blockGambling ? 'ON' : 'OFF'}</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">🔍 Safe Search</div>
+                <div class="consent-item" onclick="toggleFilter('${filters.id}', 'enforceSafeSearch', ${!filters.enforceSafeSearch})">
+                    <div>
+                        <div class="feature-name">Search Engines</div>
+                        <div class="feature-desc">Force SafeSearch on Google, Bing, YouTube</div>
+                    </div>
+                    <span class="badge badge-${filters.enforceSafeSearch ? 'granted' : 'revoked'}">${filters.enforceSafeSearch ? 'ON' : 'OFF'}</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+async function toggleFilter(filterId, field, newValue) {
+    try {
+        const payload = { id: filterId };
+        payload[field] = newValue;
+        await api.updateWebFilter(payload);
+        showToast('Web filter updated', 'success');
+        loadWebSafety();
+    } catch (e) { showToast(e.message, 'error'); }
+}
+
+// ===== Phase 3: Live Support =====
+async function loadLiveSupport() {
+    const container = document.getElementById('livesupport-content');
+    if (!currentFamily || currentChildren.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">🎧</div><p>Link a child device first</p></div>';
+        return;
+    }
+    const child = currentChildren[0];
+    let activeSession = null;
+    try {
+        const res = await api.getActiveSession(child.id);
+        activeSession = res.data;
+    } catch(e) {}
+
+    if (activeSession) {
+        container.innerHTML = `
+            <div class="card" style="border-color: var(--success); box-shadow: 0 0 20px rgba(16,185,129,0.2);">
+                <div class="card-title">🟢 Active Session with ${child.displayName}</div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <p style="font-size:18px; margin-bottom:8px;">Type: <strong>${activeSession.sessionType}</strong></p>
+                        <p style="color:var(--text-secondary); font-size:14px;">Started: ${new Date(activeSession.startedAt).toLocaleString()}</p>
+                    </div>
+                    <button class="btn btn-danger" onclick="endSession('${activeSession.id}')">End Session</button>
+                </div>
+            </div>
+        `;
+    } else {
+        container.innerHTML = `
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Start Live Session</div>
+                    <p style="color:var(--text-secondary); margin-bottom:24px; font-size:14px;">
+                        Initiate a fully transparent voice or screen sharing session. The child device will display a persistent notification while active.
+                    </p>
+                    <div style="display:flex; gap:16px; flex-direction:column;">
+                        <button class="btn btn-primary" onclick="initiateSession('${child.id}', 'VOICE_CALL')" style="background:linear-gradient(135deg, #3b82f6, #2563eb);">
+                            📞 Start Voice Support
+                        </button>
+                        <button class="btn btn-primary" onclick="initiateSession('${child.id}', 'SCREEN_SHARE')" style="background:linear-gradient(135deg, #10b981, #059669);">
+                            📺 Request Screen Share
+                        </button>
+                        <button class="btn btn-primary" onclick="initiateSession('${child.id}', 'GUIDED_VIEW')" style="background:linear-gradient(135deg, #f59e0b, #d97706);">
+                            🧭 Start Guided View
+                        </button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Transparency Logs</div>
+                    <p style="color:var(--text-secondary); font-size:13px;">All live sessions are logged for audit and consent tracking.</p>
+                </div>
+            </div>
+        `;
+    }
+}
+
+async function initiateSession(childId, type) {
+    try {
+        await api.initiateSession({ childId, sessionType: type });
+        showToast('Session initiated', 'success');
+        loadLiveSupport();
+    } catch(e) { showToast(e.message, 'error'); }
+}
+
+async function endSession(sessionId) {
+    try {
+        await api.endSession(sessionId);
+        showToast('Session ended', 'success');
+        loadLiveSupport();
+    } catch(e) { showToast(e.message, 'error'); }
 }
 
 // ===== Toast =====

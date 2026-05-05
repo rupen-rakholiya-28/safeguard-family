@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import com.childprotection.api.model.enums.UserRole;
 
 @Service
 public class SupportSessionService {
@@ -20,17 +21,29 @@ public class SupportSessionService {
     private final SupportSessionRepository sessionRepo;
     private final ConsentRecordRepository consentRepo;
     private final AuditLogService auditLogService;
+    private final FamilyMemberRepository memberRepo;
 
     public SupportSessionService(SupportSessionRepository sessionRepo,
                                  ConsentRecordRepository consentRepo,
-                                 AuditLogService auditLogService) {
+                                 AuditLogService auditLogService,
+                                 FamilyMemberRepository memberRepo) {
         this.sessionRepo = sessionRepo;
         this.consentRepo = consentRepo;
         this.auditLogService = auditLogService;
+        this.memberRepo = memberRepo;
     }
 
     @Transactional
     public SupportSession createSession(Family family, User child, User initiator, SupportSessionType type) {
+        // 0. Authorization check
+        if (!initiator.getId().equals(child.getId())) {
+            boolean isParent = memberRepo.findByUserId(initiator.getId()).stream()
+                .anyMatch(m -> m.getFamily().getId().equals(family.getId()) && m.getRole() == UserRole.PARENT);
+            if (!isParent) {
+                throw new RuntimeException("Unauthorized: Initiator must be a parent in the child's family");
+            }
+        }
+
         // 1. Enforce explicit consent for LIVE_SUPPORT
         Optional<ConsentRecord> consent = consentRepo.findByChildIdAndFeatureName(
                 child.getId(), ConsentFeature.LIVE_SUPPORT);
