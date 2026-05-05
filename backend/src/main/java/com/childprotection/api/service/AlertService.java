@@ -54,7 +54,7 @@ public class AlertService {
     }
 
     public boolean hasRecentAlert(UUID childId, AlertType type, int hours) {
-        return alertRepository.existsByChildIdAndTypeAndCreatedAtAfter(childId, type, LocalDateTime.now().minusHours(hours));
+        return alertRepository.existsByChildIdAndAlertTypeAndCreatedAtAfter(childId, type, LocalDateTime.now().minusHours(hours));
     }
 
     @Transactional

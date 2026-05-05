@@ -9,5 +9,5 @@ public interface AlertRepository extends JpaRepository<Alert, UUID> {
     List<Alert> findByFamilyIdOrderByCreatedAtDesc(UUID familyId);
     List<Alert> findByChildIdOrderByCreatedAtDesc(UUID childId);
     List<Alert> findByFamilyIdAndAcknowledgedFalseOrderByCreatedAtDesc(UUID familyId);
-    boolean existsByChildIdAndTypeAndCreatedAtAfter(UUID childId, com.childprotection.api.model.enums.AlertType type, java.time.LocalDateTime after);
+    boolean existsByChildIdAndAlertTypeAndCreatedAtAfter(UUID childId, com.childprotection.api.model.enums.AlertType alertType, java.time.LocalDateTime after);
 }
