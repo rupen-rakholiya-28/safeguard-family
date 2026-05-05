@@ -112,6 +112,16 @@ async function loadDashboard() {
     
     if (!currentFamily) {
         container.innerHTML = `
+            <div class="quick-actions">
+                <div class="quick-action-card" onclick="showPage('family')">
+                    <div class="quick-action-icon">👨‍👩‍👧‍👦</div>
+                    <div class="quick-action-text">
+                        <div class="quick-action-title">Create Family</div>
+                        <div class="quick-action-desc">Set up your family to start protecting</div>
+                    </div>
+                    <div class="quick-action-arrow">→</div>
+                </div>
+            </div>
             <div class="empty-state">
                 <div class="icon">👨‍👩‍👧‍👦</div>
                 <h3>Welcome! Create your family first</h3>
@@ -124,12 +134,56 @@ async function loadDashboard() {
     }
 
     let alertCount = 0;
+    let activePolicies = 0;
     try {
         const alertRes = await api.getAlerts(currentFamily.id, true);
         alertCount = alertRes.data ? alertRes.data.length : 0;
+        if (currentChildren.length > 0) {
+            const policyRes = await api.getPolicies({ childId: currentChildren[0].id });
+            activePolicies = policyRes.data ? policyRes.data.length : 0;
+        }
     } catch(e) {}
 
     container.innerHTML = `
+        <div class="quick-actions">
+            <div class="quick-action-header">
+                <h3>⚡ Quick Actions</h3>
+            </div>
+            <div class="quick-action-grid">
+                <div class="quick-action-card" onclick="showPage('family')">
+                    <div class="quick-action-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">👨‍👩‍👧‍👦</div>
+                    <div class="quick-action-text">
+                        <div class="quick-action-title">Family</div>
+                        <div class="quick-action-desc">Manage members & invites</div>
+                    </div>
+                    <div class="quick-action-arrow">→</div>
+                </div>
+                <div class="quick-action-card" onclick="showPage('controls')">
+                    <div class="quick-action-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">⚙️</div>
+                    <div class="quick-action-text">
+                        <div class="quick-action-title">Controls</div>
+                        <div class="quick-action-desc">${activePolicies} active rules</div>
+                    </div>
+                    <div class="quick-action-arrow">→</div>
+                </div>
+                <div class="quick-action-card" onclick="showPage('consents')">
+                    <div class="quick-action-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">📋</div>
+                    <div class="quick-action-text">
+                        <div class="quick-action-title">Consents</div>
+                        <div class="quick-action-desc">Feature permissions</div>
+                    </div>
+                    <div class="quick-action-arrow">→</div>
+                </div>
+                <div class="quick-action-card" onclick="showPage('alerts')">
+                    <div class="quick-action-icon" style="background: linear-gradient(135deg, #ef4444, #f87171);">🔔</div>
+                    <div class="quick-action-text">
+                        <div class="quick-action-title">Alerts</div>
+                        <div class="quick-action-desc">${alertCount} pending alerts</div>
+                    </div>
+                    <div class="quick-action-arrow">→</div>
+                </div>
+            </div>
+        </div>
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">👨‍👩‍👧‍👦</div>

@@ -106,14 +106,14 @@ public class ActivityService {
     }
     
     public Map<String, Object> getLatestLocation(UUID childId) {
-        Optional<LocationPing> latest = locationPingRepository
+        List<LocationPing> latestList = locationPingRepository
                 .findByChildIdOrderByRecordedAtDesc(childId);
         
-        if (latest.isEmpty()) {
+        if (latestList.isEmpty()) {
             return null;
         }
         
-        LocationPing ping = latest.get();
+        LocationPing ping = latestList.get(0);
         Map<String, Object> result = new HashMap<>();
         result.put("latitude", ping.getLatitude());
         result.put("longitude", ping.getLongitude());
