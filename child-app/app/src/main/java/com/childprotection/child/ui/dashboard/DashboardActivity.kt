@@ -256,10 +256,34 @@ class DashboardActivity : AppCompatActivity() {
             .setTitle("Disconnect Request")
             .setMessage("This will send a disconnect request to your parent. Monitoring will stop after parent approves.")
             .setPositiveButton("Request") { _, _ ->
-                Toast.makeText(this, "Disconnect request sent to parent", Toast.LENGTH_SHORT).show()
+                sendDisconnectRequest()
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
+    }
+
+    private fun sendDisconnectRequest() {
+        lifecycleScope.launch {
+            try {
+                val body = mutableMapOf(
+                    "childId" to (prefs.childId ?: ""),
+                    "alertType" to "CUSTOM",
+                    "severity" to "HIGH",
+                    "title" to "Device Disconnect Request",
+                    "message" to "${prefs.childName} has requested to disconnect their device."
+                )
+                prefs.deviceId?.let { body["deviceId"] = it }
+
+                val response = ApiClient.getService().createAlert(body)
+                if (response.isSuccessful) {
+                    Toast.makeText(this@DashboardActivity, "Disconnect request sent to parent", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this@DashboardActivity, "Failed to send request", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@DashboardActivity, "No connection — try again", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun checkUsagePermission() {

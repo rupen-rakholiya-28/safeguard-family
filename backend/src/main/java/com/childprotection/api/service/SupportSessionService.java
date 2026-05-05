@@ -22,15 +22,18 @@ public class SupportSessionService {
     private final ConsentRecordRepository consentRepo;
     private final AuditLogService auditLogService;
     private final FamilyMemberRepository memberRepo;
+    private final FCMService fcmService;
 
     public SupportSessionService(SupportSessionRepository sessionRepo,
                                  ConsentRecordRepository consentRepo,
                                  AuditLogService auditLogService,
-                                 FamilyMemberRepository memberRepo) {
+                                 FamilyMemberRepository memberRepo,
+                                 FCMService fcmService) {
         this.sessionRepo = sessionRepo;
         this.consentRepo = consentRepo;
         this.auditLogService = auditLogService;
         this.memberRepo = memberRepo;
+        this.fcmService = fcmService;
     }
 
     @Transactional
@@ -65,6 +68,19 @@ public class SupportSessionService {
         auditLogService.log(child.getId(), "SESSION", session.getId().toString(),
                 "Live support session created: " + type);
 
+        // 4. Notify child device via FCM
+        try {
+            fcmService.sendToUser(child.getId(), "Live Support Request",
+                    "A " + type + " session has been initiated by " + initiator.getDisplayName(),
+                    java.util.Map.of(
+                            "action", "START_SESSION",
+                            "sessionId", session.getId().toString(),
+                            "sessionType", type.name()
+                    ));
+        } catch (Exception e) {
+            System.err.println("Failed to send session FCM to child: " + e.getMessage());
+        }
+
         return session;
     }
 
@@ -82,6 +98,17 @@ public class SupportSessionService {
 
         auditLogService.log(session.getChild().getId(), "SESSION", sessionId.toString(),
                 "Live support session ended by: " + endedBy.getDisplayName());
+
+        try {
+            fcmService.sendToUser(session.getChild().getId(), "Live Support Ended",
+                    "The live support session has ended.",
+                    java.util.Map.of(
+                            "action", "END_SESSION",
+                            "sessionId", sessionId.toString()
+                    ));
+        } catch (Exception e) {
+            System.err.println("Failed to send session end FCM: " + e.getMessage());
+        }
 
         return session;
     }

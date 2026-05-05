@@ -714,7 +714,7 @@ async function loadLiveSupport() {
 
 async function initiateSession(childId, type) {
     try {
-        await api.initiateSession({ childId, sessionType: type });
+        await api.initiateSession({ childId, type });
         showToast('Session initiated', 'success');
         loadLiveSupport();
     } catch(e) { showToast(e.message, 'error'); }

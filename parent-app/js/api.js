@@ -82,9 +82,9 @@ class ApiClient {
     getWebHistory(childId) { return this.get(`/web-safety/history/${childId}`); }
 
     // Live Support & Assistance (Phase 3)
-    getActiveSession(childId) { return this.get(`/support-sessions/active/${childId}`); }
-    initiateSession(data) { return this.post('/support-sessions/initiate', data); }
-    endSession(sessionId) { return this.post(`/support-sessions/${sessionId}/end`, {}); }
+    getActiveSession(childId) { return this.get(`/support/sessions/active?childId=${childId}`); }
+    initiateSession(data) { return this.post('/support/sessions', data); }
+    endSession(sessionId) { return this.put(`/support/sessions/${sessionId}/end`, {}); }
 
     // Devices
     getDevicesByFamily(familyId) { return this.get(`/devices?familyId=${familyId}`); }
