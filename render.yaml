@@ -8,5 +8,3 @@ services:
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
-      - key: JAVA_HOME
-        value: /opt/java/openjdk
