@@ -3,7 +3,7 @@ services:
     name: safeguard-family-api
     repo: https://github.com/rupen-rakholiya-28/safeguard-family.git
     branch: main
-    buildCommand: cd backend && ./mvnw clean package -DskipTests
+    buildCommand: chmod +x backend/build.sh && bash backend/build.sh
     startCommand: java -jar backend/target/*.jar
     envVars:
       - key: SPRING_PROFILES_ACTIVE
