@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Welcome Header -->
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hi there 👋"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="?android:textColorPrimary" />
+
+        <TextView
+            android:id="@+id/tvFamilyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Family"
+            android:textSize="14sp"
+            android:textColor="?android:textColorSecondary"
+            android:layout_marginTop="4dp" />
+
+        <!-- Monitoring Status Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/primary">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/tvMonitoringStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/monitoring_active"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvActiveFeatures"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Screen Time • App Usage"
+                    android:textSize="13sp"
+                    android:textColor="@color/white"
+                    android:alpha="0.85"
+                    android:layout_marginTop="4dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnViewMonitoring"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/whats_monitored"
+                    android:layout_marginTop="12dp"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    app:strokeColor="@color/white"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Screen Time Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvScreenTimeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/screen_time_today"
+                    android:textSize="14sp"
+                    android:textColor="?android:textColorSecondary" />
+
+                <TextView
+                    android:id="@+id/tvScreenTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0h 0m"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- SOS Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSOS"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginTop="24dp"
+            android:text="🆘  SOS EMERGENCY"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            style="@style/Widget.SafeGuard.Button.SOS" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Press if you need immediate help"
+            android:textSize="12sp"
+            android:textColor="?android:textColorSecondary"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp" />
+
+        <!-- Phase 3: Live Support Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLiveSupport"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/live_support_button"
+            android:textSize="16sp"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            app:cornerRadius="12dp" />
+
+        <!-- Disconnect -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDisconnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/request_disconnect"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            style="@style/Widget.Material3.Button.TextButton" />
+
+    </LinearLayout>
+</ScrollView>

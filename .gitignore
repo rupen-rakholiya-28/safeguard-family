@@ -1,0 +1,24 @@
+# Build outputs
+child-app/build/
+child-app/app/build/
+parent-android-app/build/
+parent-android-app/app/build/
+backend/target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Gradle
+.gradle/
+
+# Logs
+*.log
+
+# Environment
+.env

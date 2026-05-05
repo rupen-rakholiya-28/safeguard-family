@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+        AGENTS.md Compliance: Least privilege approach.
+        Parent app only needs INTERNET and notifications.
+        NO monitoring, location, or usage stats permissions.
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:name=".SafeGuardParentApp"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SafeGuardParent"
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:targetApi="34">
+
+        <!-- Auth Activity (Launcher) -->
+        <activity
+            android:name=".ui.auth.AuthActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SafeGuardParent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Main Dashboard Activity (Bottom Nav host) -->
+        <activity
+            android:name=".ui.dashboard.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SafeGuardParent" />
+
+        <!-- Firebase Messaging -->
+        <service
+            android:name=".network.ParentFCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SafeGuard Child</string>
+    <string name="app_tagline">Your safety companion</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title">Welcome to SafeGuard</string>
+    <string name="onboarding_subtitle">A transparent safety companion approved by your parent</string>
+    <string name="enter_invite_code">Enter Invite Code</string>
+    <string name="invite_code_hint">e.g. A1B2C3D4</string>
+    <string name="your_name">Your Name</string>
+    <string name="your_email">Your Email</string>
+    <string name="create_password">Create Password</string>
+    <string name="join_family">Join Family</string>
+    <string name="already_linked">Already linked? Sign in</string>
+
+    <!-- Consent -->
+    <string name="consent_title">What We Track</string>
+    <string name="consent_subtitle">You are always in control. Each feature needs your approval.</string>
+    <string name="consent_screen_time">Screen Time Tracking</string>
+    <string name="consent_screen_time_desc">Track how much time you spend on your device each day</string>
+    <string name="consent_screen_time_why">Helps your parent set healthy boundaries</string>
+    <string name="consent_screen_time_not">Does NOT record what you type or say</string>
+    <string name="consent_app_usage">App Usage Tracking</string>
+    <string name="consent_app_usage_desc">See which apps are used and for how long</string>
+    <string name="consent_app_usage_why">Helps identify apps that take too much time</string>
+    <string name="consent_app_usage_not">Does NOT read messages or private content</string>
+    <string name="consent_location">Location Sharing</string>
+    <string name="consent_location_desc">Share your device location with your parent</string>
+    <string name="consent_location_why">Helps your parent know you are safe</string>
+    <string name="consent_location_not">Does NOT track when turned off</string>
+    <string name="consent_emergency">Emergency Contacts</string>
+    <string name="consent_emergency_desc">Share emergency contact info with parent</string>
+    <string name="grant_permission">Allow</string>
+    <string name="deny_permission">Not Now</string>
+    <string name="continue_text">Continue</string>
+    <string name="finish_setup">Finish Setup</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">SafeGuard Dashboard</string>
+    <string name="whats_monitored">What\'s Being Monitored</string>
+    <string name="screen_time_today">Screen Time Today</string>
+    <string name="sos_button">SOS Emergency</string>
+    <string name="sos_confirm">Send SOS alert to your parent?</string>
+    <string name="sos_sent">SOS alert sent to your parent!</string>
+    <string name="monitoring_active">Monitoring Active</string>
+    <string name="monitoring_paused">Monitoring Paused</string>
+    <string name="request_disconnect">Request Disconnect</string>
+
+    <!-- Notifications -->
+    <string name="monitoring_channel_name">Safety Monitoring</string>
+    <string name="monitoring_channel_desc">Shows when SafeGuard is actively monitoring</string>
+    <string name="monitoring_notification_title">SafeGuard Active</string>
+    <string name="monitoring_notification_text">Keeping you safe — tap to see what\'s monitored</string>
+
+    <!-- Permissions -->
+    <string name="permission_usage_title">Usage Access Required</string>
+    <string name="permission_usage_desc">SafeGuard needs usage access to track screen time. This data is only shared with your parent.</string>
+    <string name="permission_location_title">Location Access</string>
+    <string name="permission_location_desc">Location is shared with your parent so they know you\'re safe.</string>
+    <string name="grant">Grant</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!-- Phase 3: Live Support -->
+    <string name="live_support_button">Get Live Help</string>
+    <string name="live_session_voice">Voice Help Session</string>
+    <string name="live_session_screen_share">Screen Share Session</string>
+    <string name="live_session_guided_help">Guided Help Session</string>
+    <string name="live_session_active_text">Live support is active. You can end it anytime.</string>
+    <string name="end_session">End Session</string>
+    <string name="start_voice_session">Start Voice Help</string>
+    <string name="start_screen_share">Share Screen</string>
+    <string name="live_support_permission_title">Microphone Access</string>
+    <string name="live_support_permission_desc">Live voice help requires microphone access. Audio is not recorded or stored. You can stop anytime.</string>
+    <string name="session_started">Session started successfully</string>
+    <string name="session_ended">Session ended</string>
+    <string name="session_error">Could not start session</string>
+    <string name="type_voice">VOICE_HELP</string>
+    <string name="type_screen">SCREEN_SHARE</string>
+</resources>

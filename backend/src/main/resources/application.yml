@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: child-protection-api
+
+  # Default profile uses H2 for easy local dev
+  datasource:
+    url: jdbc:h2:mem:childprotection;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+
+  # Redis - disabled by default for dev; enable in production profile
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  # Disable Redis auto-config for dev profile
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
+server:
+  port: 8080
+
+# JWT Configuration
+app:
+  jwt:
+    secret: childProtectionSecretKeyForJWTTokenGenerationMustBeAtLeast256BitsLong2024!
+    expiration-ms: 86400000       # 24 hours
+    refresh-expiration-ms: 604800000  # 7 days
+
+# CORS
+  cors:
+    allowed-origins: http://localhost:3000,http://localhost:5500,http://127.0.0.1:5500
+
+---
+# Production profile
+spring:
+  config:
+    activate:
+      on-profile: production
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/childprotection
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  autoconfigure:
+    exclude: []
+
+  h2:
+    console:
+      enabled: false

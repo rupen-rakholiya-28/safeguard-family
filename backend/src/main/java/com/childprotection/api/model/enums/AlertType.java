@@ -1,0 +1,19 @@
+package com.childprotection.api.model.enums;
+
+public enum AlertType {
+    SOS,
+    SCREEN_TIME_EXCEEDED,
+    APP_BLOCKED_ATTEMPT,
+    LOCATION_GEOFENCE_EXIT,
+    LOCATION_GEOFENCE_ENTER,
+    DEVICE_OFFLINE,
+    BEDTIME_VIOLATION,
+    // Phase 2: Smart alert types
+    LATE_NIGHT_USAGE,
+    EXCESSIVE_USAGE_SPIKE,
+    NEW_RISKY_APP,
+    UNSAFE_CONTENT,
+    POTENTIAL_BULLYING,
+    DAILY_RISK_SUMMARY,
+    CUSTOM
+}

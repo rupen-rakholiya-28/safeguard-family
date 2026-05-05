@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?android:colorBackground">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/consent_title"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="?android:textColorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/consent_subtitle"
+            android:textSize="14sp"
+            android:textColor="?android:textColorSecondary"
+            android:gravity="center"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <!-- Consent List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvConsents"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        android:clipToPadding="false" />
+
+    <!-- Finish Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnFinishSetup"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="24dp"
+        android:text="@string/finish_setup"
+        style="@style/Widget.SafeGuard.Button.Primary" />
+</LinearLayout>
